@@ -1,4 +1,5 @@
 import UIKit
+import Alamofire
 
 class CoinData {
     static let shared = CoinData()
@@ -10,6 +11,22 @@ class CoinData {
         for symbol in symbols {
             let coin = Coin(symbol: symbol)
             coins.append(coin)
+        }
+    }
+    
+    func getPrices() {
+        var listOfSymbols = ""
+        
+        for coin in coins {
+            listOfSymbols += coin.symbol
+            
+            if coin.symbol != coins.last?.symbol {
+                listOfSymbols += ","
+            }
+        }
+        
+        Alamofire.request("https://min-api.cryptocompare.com/data/pricemulti?fsyms=\(listOfSymbols)&tsyms=USD,EUR").responseJSON { (response) in
+            print(response.result.value)
         }
     }
 }
