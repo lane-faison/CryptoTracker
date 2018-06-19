@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F1C98DA7C87B7F99362639914501FA59"
-               BlueprintName = "Pods-CryptoTracker"
+               BlueprintIdentifier = "7C31237DFDD9A7B3508C3F0262BC810D"
+               BlueprintName = "SwiftChart"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "Pods-CryptoTracker.framework">
+               BuildableName = "SwiftChart.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
