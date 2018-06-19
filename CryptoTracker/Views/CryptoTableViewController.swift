@@ -5,6 +5,8 @@ class CryptoTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        CoinData.shared.delegate = self
+        
         CoinData.shared.getPrices()
     }
 
@@ -16,9 +18,15 @@ class CryptoTableViewController: UITableViewController {
         let cell = UITableViewCell()
         let coin = CoinData.shared.coins[indexPath.row]
         
-        cell.textLabel?.text = coin.symbol
+        cell.textLabel?.text = "\(coin.symbol) - \(coin.priceAsString())"
         cell.imageView?.image = coin.image
         
         return cell
+    }
+}
+
+extension CryptoTableViewController: CoinDataDelegate {
+    func newPrices() {
+        tableView.reloadData()
     }
 }

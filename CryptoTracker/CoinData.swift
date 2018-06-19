@@ -1,9 +1,14 @@
 import UIKit
 import Alamofire
 
+@objc protocol CoinDataDelegate: class {
+    @objc optional func newPrices()
+}
+
 class CoinData {
     static let shared = CoinData()
     var coins = [Coin]()
+    weak var delegate: CoinDataDelegate?
     
     private init() {
         let symbols = ["BTC", "ETH", "LTC"]
@@ -26,7 +31,17 @@ class CoinData {
         }
         
         Alamofire.request("https://min-api.cryptocompare.com/data/pricemulti?fsyms=\(listOfSymbols)&tsyms=USD,EUR").responseJSON { (response) in
-            print(response.result.value)
+            
+            if let json = response.result.value as? [String: Any] {
+                for coin in self.coins {
+                    if let coinJSON = json[coin.symbol] as? [String: Double] {
+                        if let price = coinJSON["USD"] {
+                            coin.price = price
+                        }
+                    }
+                }
+                self.delegate?.newPrices?()
+            }
         }
     }
 }
@@ -43,6 +58,22 @@ class Coin {
         
         if let image = UIImage(named: symbol) {
             self.image = image
+        }
+    }
+    
+    func priceAsString() -> String {
+        if price == 0.0 {
+            return "Loading..."
+        }
+        
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.numberStyle = .currency
+        
+        if let fancyPrice = formatter.string(from: NSNumber(floatLiteral: price)) {
+            return fancyPrice
+        } else {
+            return "ERROR"
         }
     }
 }
