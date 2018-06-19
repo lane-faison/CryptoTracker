@@ -6,7 +6,7 @@ target 'CryptoTracker' do
   use_frameworks!
 
   # Pods for CryptoTracker
-pod "Alamofire"
-pod "SwiftChart"
+pod 'Alamofire', '4.7.2'
+pod 'SwiftChart', '1.0.1'
 
 end
