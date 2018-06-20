@@ -5,9 +5,12 @@ class CryptoTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CoinData.shared.delegate = self
-        
         CoinData.shared.getPrices()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        CoinData.shared.delegate = self
+        tableView.reloadData()
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
