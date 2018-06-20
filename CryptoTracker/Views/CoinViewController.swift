@@ -47,15 +47,20 @@ class CoinViewController: UIViewController {
         edgesForExtendedLayout = []
         view.backgroundColor = .white
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editTapped))
+        
         guard let coin = coin else { return }
         
+        title = coin.symbol
+        
         setupChart()
-        setupImageView(coin: coin)
-        setupPriceLabel(coin: coin)
-        setupQuantityOwnedLabel(coin: coin)
-        setupTotalValueLabel(coin: coin)
+        setupImageView()
+        setupPriceLabel()
+        setupQuantityOwnedLabel()
+        setupTotalValueLabel()
         
         coin.getHistoricalData()
+        newPrices()
     }
 }
 
@@ -77,7 +82,9 @@ extension CoinViewController {
         }
     }
     
-    private func setupImageView(coin: Coin) {
+    private func setupImageView() {
+        guard let coin = coin else { return }
+        
         view.addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: chart.bottomAnchor, constant: 20.0),
@@ -88,7 +95,7 @@ extension CoinViewController {
         imageView.image = coin.image
     }
     
-    private func setupPriceLabel(coin: Coin) {
+    private func setupPriceLabel() {
         view.addSubview(priceLabel)
         NSLayoutConstraint.activate([
             priceLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5.0),
@@ -96,10 +103,9 @@ extension CoinViewController {
             priceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             priceLabel.heightAnchor.constraint(equalToConstant: 25.0)
             ])
-        priceLabel.text = coin.priceAsString()
     }
     
-    private func setupQuantityOwnedLabel(coin: Coin) {
+    private func setupQuantityOwnedLabel() {
         view.addSubview(quantityOwnedLabel)
         NSLayoutConstraint.activate([
             quantityOwnedLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 20.0),
@@ -107,10 +113,9 @@ extension CoinViewController {
             quantityOwnedLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             quantityOwnedLabel.heightAnchor.constraint(equalToConstant: 25.0)
             ])
-        quantityOwnedLabel.text = "Owned: \(coin.amount) \(coin.symbol)"
     }
     
-    private func setupTotalValueLabel(coin: Coin) {
+    private func setupTotalValueLabel() {
         view.addSubview(totalValueLabel)
         NSLayoutConstraint.activate([
             totalValueLabel.topAnchor.constraint(equalTo: quantityOwnedLabel.bottomAnchor, constant: 10.0),
@@ -118,7 +123,32 @@ extension CoinViewController {
             totalValueLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             totalValueLabel.heightAnchor.constraint(equalToConstant: 25.0)
             ])
-        totalValueLabel.text = "Value: \(coin.valueAsString())"
+    }
+}
+
+extension CoinViewController {
+    @objc private func editTapped() {
+        guard let coin = coin else { return }
+        
+        let alert = UIAlertController(title: "How much \(coin.symbol) do you own?", message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "i.e. 20.00"
+            textField.keyboardType = .decimalPad
+            
+            if self.coin?.amount != 0.0 {
+                textField.text = String(coin.amount)
+            }
+        }
+        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action) in
+            guard let text = alert.textFields?.first?.text else { return }
+            
+            if let amount = Double(text) {
+                self.coin?.amount = amount
+                self.newPrices()
+            }
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
