@@ -57,6 +57,16 @@ class CoinData {
             return "ERROR"
         }
     }
+    
+    func netWorthAsString() -> String {
+        var netWorth = 0.0
+        
+        for coin in coins {
+            netWorth += coin.price * coin.amount
+        }
+        
+        return doubleToMoneyString(netWorth)
+    }
 }
 
 class Coin {
