@@ -17,6 +17,13 @@ class CoinViewController: UIViewController {
         return imageView
     }()
     
+    var divider: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .gray
+        return view
+    }()
+    
     var priceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -54,6 +61,7 @@ class CoinViewController: UIViewController {
         title = coin.symbol
         
         setupChart()
+        setupDivider()
         setupImageView()
         setupPriceLabel()
         setupQuantityOwnedLabel()
@@ -82,12 +90,23 @@ extension CoinViewController {
         }
     }
     
+    private func setupDivider() {
+        view.addSubview(divider)
+        
+        NSLayoutConstraint.activate([
+            divider.topAnchor.constraint(equalTo: chart.bottomAnchor, constant: 10.0),
+            divider.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            divider.heightAnchor.constraint(equalToConstant: 2.0)
+            ])
+    }
+    
     private func setupImageView() {
         guard let coin = coin else { return }
         
         view.addSubview(imageView)
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: chart.bottomAnchor, constant: 20.0),
+            imageView.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 20.0),
             imageView.centerXAnchor.constraint(equalTo: chart.centerXAnchor),
             imageView.heightAnchor.constraint(equalToConstant: view.frame.size.height / 6),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
@@ -98,7 +117,7 @@ extension CoinViewController {
     private func setupPriceLabel() {
         view.addSubview(priceLabel)
         NSLayoutConstraint.activate([
-            priceLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5.0),
+            priceLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10.0),
             priceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             priceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             priceLabel.heightAnchor.constraint(equalToConstant: 25.0)

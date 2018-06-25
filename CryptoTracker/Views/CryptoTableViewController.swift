@@ -5,8 +5,10 @@ class CryptoTableViewController: UITableViewController {
     
     private let headerHeight: CGFloat = 100
     private let netWorthHeight: CGFloat = 45
+    private let rowHeight: CGFloat = 60
     
     var amountLabel = UILabel()
+    var divider = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +58,10 @@ class CryptoTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return createHeaderView()
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return rowHeight
+    }
 }
 
 extension CryptoTableViewController {
@@ -76,8 +82,19 @@ extension CryptoTableViewController {
         NSLayoutConstraint.activate([
             amountLabel.topAnchor.constraint(equalTo: netWorthLabel.bottomAnchor),
             amountLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-            amountLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            amountLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
+            amountLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor)
+            ])
+        
+        divider.backgroundColor = .gray
+        divider.translatesAutoresizingMaskIntoConstraints = false
+        headerView.addSubview(divider)
+        
+        NSLayoutConstraint.activate([
+            divider.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20.0),
+            divider.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
+            divider.bottomAnchor.constraint(equalTo: headerView.bottomAnchor),
+            divider.heightAnchor.constraint(equalToConstant: 2.0)
             ])
         
         return headerView
