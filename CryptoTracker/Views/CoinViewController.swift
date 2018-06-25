@@ -144,6 +144,7 @@ extension CoinViewController {
             
             if let amount = Double(text) {
                 self.coin?.amount = amount
+                UserDefaults.standard.set(amount, forKey: coin.symbol + "amount")
                 self.newPrices()
             }
         }))

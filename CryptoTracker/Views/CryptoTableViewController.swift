@@ -1,4 +1,5 @@
 import UIKit
+import LocalAuthentication
 
 class CryptoTableViewController: UITableViewController {
     
@@ -11,6 +12,12 @@ class CryptoTableViewController: UITableViewController {
         super.viewDidLoad()
         
         CoinData.shared.getPrices()
+        
+        setupReportButton()
+        
+        if LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+            updateSecureButton()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,8 +83,42 @@ extension CryptoTableViewController {
         return headerView
     }
     
+    private func setupReportButton() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Report", style: .plain, target: self, action: #selector(reportTapped))
+    }
+    
+    @objc private func reportTapped() {
+        let formatter = UIMarkupTextPrintFormatter(markupText: CoinData.shared.html())
+        let render = UIPrintPageRenderer()
+        render.addPrintFormatter(formatter, startingAtPageAt: 0)
+        let page = CGRect(x: 0, y: 0, width: 595.2, height: 841.8)
+        render.setValue(page, forKey: "paperRect")
+        render.setValue(page, forKey: "printableRect")
+        let pdfData = NSMutableData()
+        UIGraphicsBeginPDFContextToData(pdfData, .zero, nil)
+        for i in 0..<render.numberOfPages {
+            UIGraphicsBeginPDFPage()
+            render.drawPage(at: i, in: UIGraphicsGetPDFContextBounds())
+        }
+        UIGraphicsEndPDFContext()
+        
+        let shareVC = UIActivityViewController(activityItems: [pdfData], applicationActivities: nil)
+        present(shareVC, animated: true, completion: nil)
+    }
+    
     private func displayNetWorth() {
         amountLabel.text = CoinData.shared.netWorthAsString()
+    }
+    
+    private func updateSecureButton() {
+        let buttonTitle = UserDefaults.standard.bool(forKey: "secure") ? "Unsecure App" : "Secure App"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: buttonTitle, style: .plain, target: self, action: #selector(secureTapped))
+    }
+    
+    @objc private func secureTapped() {
+        let updatedBool = !UserDefaults.standard.bool(forKey: "secure")
+        UserDefaults.standard.set(updatedBool, forKey: "secure")
+        updateSecureButton()
     }
 }
 

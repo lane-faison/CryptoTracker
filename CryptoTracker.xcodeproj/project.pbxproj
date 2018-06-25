@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F2E257D45F7C7CBA33E5EB4D /* Pods_CryptoTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07DF98D7F214EE9482BE1CCC /* Pods_CryptoTracker.framework */; };
+		F65AB0AF20DCA68C009F3CC2 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65AB0AE20DCA68B009F3CC2 /* AuthViewController.swift */; };
 		F685A85F20D771D2008BED86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F685A85E20D771D2008BED86 /* AppDelegate.swift */; };
 		F685A86620D771D4008BED86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F685A86520D771D4008BED86 /* Assets.xcassets */; };
 		F685A86920D771D4008BED86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F685A86720D771D4008BED86 /* LaunchScreen.storyboard */; };
@@ -20,6 +21,7 @@
 		07DF98D7F214EE9482BE1CCC /* Pods_CryptoTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71ED086E76708F4EB1F6E074 /* Pods-CryptoTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoTracker.release.xcconfig"; path = "Pods/Target Support Files/Pods-CryptoTracker/Pods-CryptoTracker.release.xcconfig"; sourceTree = "<group>"; };
 		9AB6355ECE4952AE5081F885 /* Pods-CryptoTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoTracker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CryptoTracker/Pods-CryptoTracker.debug.xcconfig"; sourceTree = "<group>"; };
+		F65AB0AE20DCA68B009F3CC2 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		F685A85B20D771D2008BED86 /* CryptoTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F685A85E20D771D2008BED86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F685A86520D771D4008BED86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			children = (
 				F685A87020D773BF008BED86 /* CryptoTableViewController.swift */,
 				F6A3401D20D8C73C008E64C6 /* CoinViewController.swift */,
+				F65AB0AE20DCA68B009F3CC2 /* AuthViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 			files = (
 				F685A87420D774FC008BED86 /* CoinData.swift in Sources */,
 				F685A87120D773BF008BED86 /* CryptoTableViewController.swift in Sources */,
+				F65AB0AF20DCA68C009F3CC2 /* AuthViewController.swift in Sources */,
 				F685A85F20D771D2008BED86 /* AppDelegate.swift in Sources */,
 				F6A3401E20D8C73C008E64C6 /* CoinViewController.swift in Sources */,
 			);
